@@ -1,4 +1,7 @@
 <h1>{{ title }}</h1>
 
-<app-photo url="https://http.cat/100" description="100"></app-photo>
-<app-photo url="https://http.cat/200" description="200"></app-photo>
+<app-photo
+  *ngFor="let photo of photos"
+  [url]="photo.url"
+  [description]="photo.description">
+</app-photo>

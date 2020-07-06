@@ -7,4 +7,15 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = "alurapic";
+
+  photos = [
+    {
+      url: "https://http.cat/100",
+      description: "100"
+    },
+    {
+      url: "https://http.cat/200",
+      description: "200"
+    }
+  ]
 }
