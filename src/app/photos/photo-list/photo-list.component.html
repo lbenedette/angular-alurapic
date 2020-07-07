@@ -8,8 +8,7 @@
         (keyup)="filter = $event.target.value">
   </form>
 </div>
-{{ filter }}
-<app-photos [photos]="photos"></app-photos>
+<app-photos [photos]="photos | filterByDescription: filter"></app-photos>
 
 <!-- []: inbound binding => component to view -->
 <!-- (): event binding   => view to component -->

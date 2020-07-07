@@ -6,12 +6,14 @@ import { HttpClientModule } from '@angular/common/http';
 import { PhotoComponent } from './photo/photo.component';
 import { PhotoListComponent } from './photo-list/photo-list.component';
 import { PhotosComponent } from './photo-list/photos/photos.component';
+import { FilterByDescriptionPipe } from './photo-list/filter-by-description.pipe'
 
 @NgModule({
   declarations: [
     PhotoComponent,
     PhotoListComponent,
-    PhotosComponent
+    PhotosComponent,
+    FilterByDescriptionPipe
   ],
   imports: [
     CommonModule,
