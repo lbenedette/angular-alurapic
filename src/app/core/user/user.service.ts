@@ -13,6 +13,7 @@ export class UserService {
 
   // O BehaviorSubject armazena a última emissão até que alguém apareça para consumi-la.
   private userSubject = new BehaviorSubject<User>(null);
+  username: string;
 
   constructor(private tokenService: TokenService) {
     this.tokenService.hasToken() && this.decodeAndNotify();
@@ -27,6 +28,14 @@ export class UserService {
     return this.userSubject.asObservable();
   }
 
+  getUsername() {
+    return this.username;
+  }
+
+  isLogged() {
+    return this.tokenService.hasToken();
+  }
+
   logout() {
     this.tokenService.removeToken();
     this.userSubject.next(null);
@@ -35,6 +44,7 @@ export class UserService {
   private decodeAndNotify() {
     const token = this.tokenService.getToken();
     const user = jwt_decode(token) as User;
+    this.username = user.name;
     this.userSubject.next(user);
   }
 }
