@@ -1,10 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
 import { SignupService } from './signup.service';
 import { UserNotTakenValidatorService } from './user-not-taken.validator.service';
 import { NewUser } from './new-user';
 import { Router } from '@angular/router';
+import { PlatformService } from 'src/app/core/platform/platform.service';
 
 @Component({
   selector: 'app-signup',
@@ -14,10 +15,12 @@ import { Router } from '@angular/router';
 export class SignUpComponent implements OnInit {
 
   signupForm: FormGroup;
+  @ViewChild('emailInput') emailInput: ElementRef<HTMLInputElement>;
 
   constructor(
     private formBuilder: FormBuilder,
     private signupService: SignupService,
+    private platformService: PlatformService,
     private userNotTakenValidatorService: UserNotTakenValidatorService,
     private router: Router
   ) { }
@@ -36,7 +39,11 @@ export class SignUpComponent implements OnInit {
         this.userNotTakenValidatorService.checkUserNameTaken()
       ],
       password: ['', [Validators.required, Validators.minLength(8), Validators.maxLength(14)]],
-    })
+    });
+  }
+
+  ngAfterViewInit() {
+    this.platformService.isPlatformBrowser() && this.emailInput.nativeElement.focus();
   }
 
   signup() {
@@ -44,7 +51,11 @@ export class SignUpComponent implements OnInit {
     this.signupService.signup(newUser)
       .subscribe(
         () => this.router.navigate(['']),
-        err => console.log(err)
+        err => {
+          console.log(err);
+          this.signupForm.reset();
+          this.platformService.isPlatformBrowser() && this.emailInput.nativeElement.focus();
+        }
       );
   }
 }
