@@ -4,9 +4,7 @@ import { debounceTime, switchMap, map, first } from 'rxjs/operators';
 
 import { SignupService } from "./signup.service";
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable()
 export class UserNotTakenValidatorService {
 
   constructor(private signupService: SignupService) { }
@@ -17,6 +15,7 @@ export class UserNotTakenValidatorService {
         .valueChanges
         .pipe(debounceTime(300))
         .pipe(switchMap(userName => this.signupService.checkUserNameTaken(userName)))
+        // return result as a observable
         .pipe(map(isTaken => isTaken ? { userNameTaken: true } : null))
         .pipe(first());
     }
